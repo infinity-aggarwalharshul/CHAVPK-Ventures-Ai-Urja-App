@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The CHAVPK Urja Platform - World's most powerful AI-driven e-waste recycling and infinite energy conversion system.">
+    <meta name="keywords" content="E-Waste, Infinite Energy, AI Recycling, CHAVPK Urja, Sustainable Tech, Real-World Problem Solver">
+    <title>The CHAVPK Urja | E-Waste to Infinite Energy</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        urja: {
+                            cyan: '#00F0FF',
+                            blue: '#0057FF',
+                            dark: '#0A0B10',
+                            panel: '#151722',
+                            glow: 'rgba(0, 240, 255, 0.5)'
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 15px rgba(0, 240, 255, 0.3)',
+                        'neon-intense': '0 0 25px rgba(0, 240, 255, 0.6)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Styles for aesthetic enhancements */
+        body { background-color: #0A0B10; color: #E2E8F0; overflow-x: hidden; }
+        .glass-panel {
+            background: rgba(21, 23, 34, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+        }
+        .text-gradient {
+            background: linear-gradient(90deg, #00F0FF, #0057FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0B10; }
+        ::-webkit-scrollbar-thumb { background: #1F2937; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
+
+        .hidden-view { display: none !important; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col font-sans selection:bg-urja-cyan selection:text-urja-dark">
+
+    <!-- Top Bar (Header) -->
+    <header class="fixed top-0 w-full z-50 glass-panel border-b border-gray-800 h-16 flex items-center justify-between px-4 lg:px-8">
+        <div class="flex items-center gap-4">
+            <!-- Top-Left Hamburger Menu Button (Crucial Requirement) -->
+            <button id="menu-btn" class="text-gray-300 hover:text-urja-cyan transition-colors focus:outline-none" aria-label="Toggle Menu">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+            <div class="flex items-center gap-2 cursor-pointer" onclick="navigate('home')">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-urja-blue to-urja-cyan flex items-center justify-center shadow-neon animate-pulse-slow">
+                    <i class="fas fa-bolt text-urja-dark text-sm"></i>
+                </div>
+                <span class="font-display font-bold text-xl tracking-wide hidden sm:block">CHAVPK <span class="text-gradient">Urja</span></span>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <!-- Silent Update Status Indicator -->
+            <div class="hidden sm:flex items-center gap-2 text-xs text-gray-400 bg-gray-900 px-3 py-1.5 rounded-full border border-gray-800">
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <span id="system-status">System Optimal | Core V2.4</span>
+            </div>
+            <!-- User / Login state -->
+            <div id="auth-status" class="text-sm font-medium text-gray-400">
+                <i class="fas fa-circle-notch fa-spin"></i> Connecting SecurGrid...
+            </div>
+        </div>
+    </header>
+
+    <!-- Left Navigation Drawer -->
+    <nav id="side-menu" class="fixed top-0 left-0 h-full w-72 glass-panel border-r border-gray-800 transform -translate-x-full transition-transform duration-300 ease-in-out z-40 pt-20 pb-6 flex flex-col justify-between">
+        <div class="px-4 space-y-1">
+            <p class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Public Platform</p>
+            <button onclick="navigate('home')" class="nav-link w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-urja-cyan transition-all flex items-center gap-3">
+                <i class="fas fa-home w-5 text-center"></i> Home
+            </button>
+            <button onclick="navigate('ai-agent')" class="nav-link w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-urja-cyan transition-all flex items-center gap-3">
+                <i class="fas fa-brain w-5 text-center"></i> AI Diagnostics Agent
+            </button>
+            <button onclick="navigate('about')" class="nav-link w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-urja-cyan transition-all flex items-center gap-3">
+                <i class="fas fa-info-circle w-5 text-center"></i> About Urja
+            </button>
+            <button onclick="navigate('faqs')" class="nav-link w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-urja-cyan transition-all flex items-center gap-3">
+                <i class="fas fa-question-circle w-5 text-center"></i> FAQs
+            </button>
+
+            <p class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">Legal & Privacy</p>
+            <button onclick="navigate('privacy')" class="nav-link w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-all flex items-center gap-3">
+                <i class="fas fa-shield-alt w-5 text-center"></i> Privacy Policy
+            </button>
+            <button onclick="navigate('terms')" class="nav-link w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-all flex items-center gap-3">
+                <i class="fas fa-file-contract w-5 text-center"></i> Terms & Conditions
+            </button>
+        </div>
+
+        <div class="px-4 mt-auto border-t border-gray-800 pt-4">
+            <p class="px-4 text-xs font-semibold text-red-500 uppercase tracking-wider mb-2">Restricted Area</p>
+            <!-- Hidden Enterprise Ecosystem Entry Point -->
+            <button onclick="triggerEnterpriseLogin()" class="w-full text-left px-4 py-3 rounded-lg text-gray-400 hover:bg-red-900/30 hover:text-red-400 transition-all flex items-center gap-3 border border-transparent hover:border-red-900/50">
+                <i class="fas fa-fingerprint w-5 text-center"></i> Enterprise Access
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Overlay for mobile menu -->
+    <div id="menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 hidden transition-opacity opacity-0"></div>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-16 lg:pl-0 transition-all duration-300 relative min-h-screen">
+        
+        <!-- ==================== HOME VIEW ==================== -->
+        <div id="view-home" class="view-section container mx-auto px-4 py-12 max-w-6xl fade-in">
+            <div class="text-center space-y-6 mb-16">
+                <div class="inline-block px-4 py-1.5 rounded-full border border-urja-cyan/30 bg-urja-cyan/10 text-urja-cyan text-sm font-medium mb-4">
+                    The Next Evolution of E-Waste Recycling
+                </div>
+                <h1 class="text-5xl md:text-7xl font-display font-bold tracking-tight">
+                    Convert Waste to <br />
+                    <span class="text-gradient">Infinite Energy.</span>
+                </h1>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">
+                    The CHAVPK Urja is the world’s most powerful, AI-driven ecosystem utilizing the patented Perpetual Urja Protocol to transform discarded electronics into solid-state power grids.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+                    <button onclick="navigate('ai-agent')" class="bg-urja-cyan text-urja-dark font-semibold px-8 py-4 rounded-xl hover:bg-white transition-colors shadow-neon flex items-center justify-center gap-2">
+                        <i class="fas fa-robot"></i> Start AI Diagnostics
+                    </button>
+                    <button onclick="navigate('about')" class="glass-panel text-white font-medium px-8 py-4 rounded-xl hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 border border-gray-700">
+                        <i class="fas fa-book-open"></i> Read the Protocol
+                    </button>
+                    <!-- Note: No 'Download Client' button per requirements -->
+                </div>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <div class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-urja-cyan/50 transition-colors">
+                    <div class="w-12 h-12 rounded-lg bg-urja-blue/20 flex items-center justify-center text-urja-cyan text-xl mb-4">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Perpetual Urja Protocol</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Extracts residual ionic charges from dead batteries, synthesizing them into solid-state energy bricks for infinite electrical reuse.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-urja-cyan/50 transition-colors">
+                    <div class="w-12 h-12 rounded-lg bg-urja-blue/20 flex items-center justify-center text-urja-cyan text-xl mb-4">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Silent NLP Training</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Multimodal AI continuously learns from audio, video, and text inputs globally, auto-updating its linguistic models without user friction.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-gray-800 hover:border-urja-cyan/50 transition-colors">
+                    <div class="w-12 h-12 rounded-lg bg-urja-blue/20 flex items-center justify-center text-urja-cyan text-xl mb-4">
+                        <i class="fas fa-shield-virus"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Quantum Anti-Theft</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">GPS and biometric-linked localized encryption. Unauthorized access triggers instant session lockout and cache obfuscation.</p>
+                </div>
+            </div>
+            
+            <!-- Marketing Image Placeholder -->
+            <div class="relative rounded-2xl overflow-hidden glass-panel border border-gray-800 aspect-video flex items-center justify-center group cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+                <img src="https://placehold.co/1200x600/0A0B10/00F0FF?text=AI+Extracting+Energy+From+E-Waste" alt="AI Facility" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500">
+                <div class="absolute bottom-0 left-0 p-8 z-20">
+                    <h2 class="text-2xl font-bold text-white mb-2">The Real-World Problem Solver</h2>
+                    <p class="text-gray-300 max-w-xl">Automated micro-refineries transforming toxic waste into clean energy for urban grids.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== AI AGENT VIEW ==================== -->
+        <div id="view-ai-agent" class="view-section hidden-view container mx-auto px-4 py-8 h-[calc(100vh-4rem)] flex flex-col max-w-5xl fade-in">
+            <div class="flex items-center justify-between mb-4 pb-4 border-b border-gray-800">
+                <div>
+                    <h2 class="text-2xl font-display font-bold">Multimodal AI Agent</h2>
+                    <p class="text-sm text-gray-400">Powered by Gemini Cloud Engine & Silent NLP</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="px-2 py-1 bg-green-500/10 text-green-400 border border-green-500/20 rounded text-xs flex items-center gap-1"><i class="fas fa-circle text-[8px]"></i> NLP Training Active</span>
+                </div>
+            </div>
+            
+            <!-- Chat History -->
+            <div id="chat-history" class="flex-grow overflow-y-auto space-y-4 mb-4 pr-2 custom-scrollbar">
+                <!-- Initial Bot Message -->
+                <div class="flex gap-4">
+                    <div class="w-8 h-8 rounded-full bg-urja-cyan text-urja-dark flex items-center justify-center flex-shrink-0">
+                        <i class="fas fa-robot text-sm"></i>
+                    </div>
+                    <div class="glass-panel p-4 rounded-2xl rounded-tl-none border border-gray-700 max-w-[80%]">
+                        <p class="text-gray-200">Greetings. I am the CHAVPK Urja AI Agent. You can upload images of e-waste, describe device issues via text, or simulate audio diagnostics. How can we process your electronic resources today to generate infinite energy?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="glass-panel p-2 rounded-2xl border border-gray-700 mt-auto">
+                <div id="ai-loading" class="hidden px-4 py-2 text-xs text-urja-cyan animate-pulse">Processing via Neural Link...</div>
+                <form id="ai-form" class="flex items-center gap-2 relative">
+                    <button type="button" class="p-3 text-gray-400 hover:text-urja-cyan transition-colors" title="Upload Image/Video (Simulated)" onclick="simulateFileUpload()">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button type="button" class="p-3 text-gray-400 hover:text-urja-cyan transition-colors" title="Microphone Input (Simulated)" onclick="simulateAudioInput()">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <input type="text" id="ai-input" class="flex-grow bg-transparent border-none text-white focus:ring-0 focus:outline-none px-2 py-3" placeholder="Describe your e-waste or ask about the Urja Protocol...">
+                    <button type="submit" class="bg-urja-cyan text-urja-dark p-3 rounded-xl hover:bg-white transition-colors shadow-neon">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==================== ABOUT VIEW ==================== -->
+        <div id="view-about" class="view-section hidden-view container mx-auto px-4 py-12 max-w-4xl fade-in prose prose-invert prose-cyan">
+            <h1 class="text-4xl font-display font-bold mb-6">The Future of E-Waste: Infinite Energy and Sustainable Tech</h1>
+            <img src="https://placehold.co/800x400/151722/00F0FF?text=Automated+Micro-Refineries" class="rounded-2xl border border-gray-800 mb-8 w-full" alt="Micro-Refineries">
+            
+            <h3 class="text-2xl text-urja-cyan mt-8 mb-4">The Global E-Waste Dilemma</h3>
+            <p class="text-gray-300 leading-relaxed mb-6">Electronic waste is notoriously difficult to process. Circuit boards are labyrinths of rare earth metals, toxic chemicals, and plastic polymers. Traditional recycling methods are often inefficient, dangerous to human workers, and economically unviable. What the industry has lacked is a "real-world problem solver"—a system capable of diagnosing, categorizing, and processing waste with microscopic precision.</p>
+            
+            <h3 class="text-2xl text-urja-cyan mt-8 mb-4">The Magic of "Urja": Converting Waste to Infinite Electricity</h3>
+            <p class="text-gray-300 leading-relaxed mb-6">The most groundbreaking novelty feature of The CHAVPK Urja lies in its namesake. Derived from ancient Indian Sanskrit scripts, "Urja" signifies power, energy, and vitality. While standard platforms aim to melt down plastics and strip copper, this platform achieves the impossible: reusing e-waste forever in the form of electricity and sustainable energy sources.</p>
+            <p class="text-gray-300 leading-relaxed mb-6">By utilizing cutting-edge machine learning modules, the system guides automated robotics to identify residual ionic compounds within dead batteries and degraded capacitors. These components are stripped, neutralized, and re-synthesized into solid-state energy cells.</p>
+
+            <h3 class="text-2xl text-urja-cyan mt-8 mb-4">Cloud-Native Architecture</h3>
+            <p class="text-gray-300 leading-relaxed mb-6">In a bold move toward purely cloud-native operation, legacy client downloads have been completely eradicated. The application runs dynamically, utilizing silent hidden auto-updates to ensure users are always on the latest, most secure version of the platform without the friction of manual downloads.</p>
+        </div>
+
+        <!-- ==================== FAQS VIEW ==================== -->
+        <div id="view-faqs" class="view-section hidden-view container mx-auto px-4 py-12 max-w-4xl fade-in">
+            <h1 class="text-4xl font-display font-bold mb-8">Frequently Asked Questions</h1>
+            <div class="space-y-4">
+                <div class="glass-panel p-6 rounded-xl border border-gray-800">
+                    <h3 class="font-bold text-lg mb-2 text-urja-cyan">How does the Perpetual Urja Protocol work?</h3>
+                    <p class="text-gray-400">It uses AI to command robotics that extract residual ionic charges from e-waste, restructuring them chemically into solid-state high-density energy bricks for grid power.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl border border-gray-800">
+                    <h3 class="font-bold text-lg mb-2 text-urja-cyan">Where is the download link for the app?</h3>
+                    <p class="text-gray-400">The CHAVPK Urja is entirely cloud-native. The "Download Client" option has been removed globally to ensure maximum security and instantaneous silent auto-updates via the browser.</p>
+                </div>
+                <div class="glass-panel p-6 rounded-xl border border-gray-800">
+                    <h3 class="font-bold text-lg mb-2 text-urja-cyan">Is my data secure during AI Diagnostics?</h3>
+                    <p class="text-gray-400">Yes. We utilize Quantum-level encryption and a localized Anti-Theft protocol. Failed biometric passkeys or suspicious GPS anomalies immediately lock the session and obfuscate local cache.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LEGAL VIEWS ==================== -->
+        <div id="view-privacy" class="view-section hidden-view container mx-auto px-4 py-12 max-w-4xl fade-in prose prose-invert">
+            <h1 class="text-4xl font-display font-bold mb-6">Privacy Policy</h1>
+            <p class="text-gray-400 text-sm mb-8">Last Updated: September 19, 2026</p>
+            <h3 class="text-xl font-bold mt-6 mb-2">1. Data Collection & Silent NLP</h3>
+            <p class="text-gray-300 mb-4">Our Multimodal AI Agent utilizes Silent Hidden NLP Training. It learns continuously from user interactions (text, simulated audio/video) to upgrade linguistic models. This data is anonymized and secured via our Blockchain ledgers.</p>
+            <h3 class="text-xl font-bold mt-6 mb-2">2. Enterprise Ecosystem Confidentiality</h3>
+            <p class="text-gray-300 mb-4">The internal Enterprise ecosystem (payroll, hiring, operations) is strictly hidden and encrypted. Unauthorized access attempts are monitored and reported via our Anti-Theft Security modules.</p>
+        </div>
+
+        <div id="view-terms" class="view-section hidden-view container mx-auto px-4 py-12 max-w-4xl fade-in prose prose-invert">
+            <h1 class="text-4xl font-display font-bold mb-6">Terms and Conditions</h1>
+            <p class="text-gray-400 text-sm mb-8">Last Updated: September 19, 2026</p>
+            <h3 class="text-xl font-bold mt-6 mb-2">1. Service Usage</h3>
+            <p class="text-gray-300 mb-4">By utilizing The CHAVPK Urja Platform, you agree to participate in the global e-waste infinite energy loop. The platform operates on a freemium model with enterprise tiers available securely.</p>
+            <h3 class="text-xl font-bold mt-6 mb-2">2. Intellectual Property</h3>
+            <p class="text-gray-300 mb-4">The Perpetual Urja Protocol, CHC (ChitraHarsha Cryptocurrency) integrations, and UI architectures are patented properties. Reverse engineering is prohibited and actively monitored by integrated security systems.</p>
+        </div>
+
+        <!-- ==================== ENTERPRISE VIEW (HIDDEN) ==================== -->
+        <div id="view-enterprise" class="view-section hidden-view container mx-auto px-4 py-8 h-full fade-in">
+            <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-4 mb-6 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-shield-halved text-red-500 text-2xl"></i>
+                    <div>
+                        <h2 class="text-red-400 font-bold">RESTRICTED ENTERPRISE ECOSYSTEM</h2>
+                        <p class="text-xs text-red-300/70">Blockchain Level-5 Encryption Active. Authorized Personnel Only.</p>
+                    </div>
+                </div>
+                <button onclick="navigate('home')" class="px-4 py-2 bg-red-900/40 text-red-300 rounded hover:bg-red-900 transition-colors text-sm">
+                    Exit Portal
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Live Currency Tracker -->
+                <div class="glass-panel p-6 rounded-2xl border border-gray-700 col-span-1 lg:col-span-2">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fas fa-chart-line text-urja-cyan"></i> Global Forex & Crypto (Live)</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                            <p class="text-xs text-gray-400 mb-1">USD/INR</p>
+                            <p class="text-xl font-mono text-green-400" id="live-usd">₹ 83.45</p>
+                        </div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                            <p class="text-xs text-gray-400 mb-1">Native CHC / USD</p>
+                            <p class="text-xl font-mono text-urja-cyan" id="live-chc">$ 1,420.50</p>
+                        </div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                            <p class="text-xs text-gray-400 mb-1">Urja Grid Power (TWh)</p>
+                            <p class="text-xl font-mono text-yellow-400" id="live-power">4.2</p>
+                        </div>
+                        <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700">
+                            <p class="text-xs text-gray-400 mb-1">Platform Revenue (Live)</p>
+                            <p class="text-xl font-mono text-white" id="live-rev">$2.4M</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security & Anti-Theft Dashboard -->
+                <div class="glass-panel p-6 rounded-2xl border border-gray-700">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fas fa-user-secret text-purple-400"></i> Cyber Security Hub</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Dark Web Monitors</span>
+                            <span class="text-green-400"><i class="fas fa-check-circle"></i> 0 Threats</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Anti-Phishing Module</span>
+                            <span class="text-green-400"><i class="fas fa-shield"></i> Active</span>
+                        </li>
+                        <li class="flex justify-between items-center border-b border-gray-800 pb-2">
+                            <span class="text-gray-400">Failed Passkey Attempts</span>
+                            <span class="text-yellow-400">2 (Last 24h)</span>
+                        </li>
+                        <li class="flex justify-between items-center">
+                            <span class="text-gray-400">Quantum Ledger State</span>
+                            <span class="text-blue-400 animate-pulse">Syncing...</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- HR & Placements Portal -->
+                <div class="glass-panel p-6 rounded-2xl border border-gray-700 col-span-1 lg:col-span-3">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2"><i class="fas fa-users text-orange-400"></i> HR & 330-Employee Roster Manager</h3>
+                    <p class="text-sm text-gray-400 mb-6">Placements Head automated virtual interview portal and AI payroll deductions.</p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="text-xs text-gray-400 uppercase bg-gray-800/50">
+                                <tr>
+                                    <th class="px-4 py-3 rounded-tl-lg">Employee ID</th>
+                                    <th class="px-4 py-3">Role / Department</th>
+                                    <th class="px-4 py-3">Status</th>
+                                    <th class="px-4 py-3">Payroll (CHC)</th>
+                                    <th class="px-4 py-3 rounded-tr-lg">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-gray-800 hover:bg-gray-800/30">
+                                    <td class="px-4 py-3 font-mono text-urja-cyan">EMP-001</td>
+                                    <td class="px-4 py-3">Data Scientist (NLP)</td>
+                                    <td class="px-4 py-3"><span class="px-2 py-1 bg-green-900/50 text-green-400 rounded-full text-xs">Active</span></td>
+                                    <td class="px-4 py-3 font-mono">1.25 CHC</td>
+                                    <td class="px-4 py-3"><button class="text-gray-400 hover:text-white"><i class="fas fa-edit"></i></button></td>
+                                </tr>
+                                <tr class="border-b border-gray-800 hover:bg-gray-800/30">
+                                    <td class="px-4 py-3 font-mono text-urja-cyan">EMP-084</td>
+                                    <td class="px-4 py-3">Transport Logistics</td>
+                                    <td class="px-4 py-3"><span class="px-2 py-1 bg-yellow-900/50 text-yellow-400 rounded-full text-xs">On Route</span></td>
+                                    <td class="px-4 py-3 font-mono">0.80 CHC</td>
+                                    <td class="px-4 py-3"><button class="text-gray-400 hover:text-white"><i class="fas fa-edit"></i></button></td>
+                                </tr>
+                                <tr class="hover:bg-gray-800/30">
+                                    <td class="px-4 py-3 font-mono text-urja-cyan">EMP-330</td>
+                                    <td class="px-4 py-3">CCTV Monitoring Ops</td>
+                                    <td class="px-4 py-3"><span class="px-2 py-1 bg-green-900/50 text-green-400 rounded-full text-xs">Active</span></td>
+                                    <td class="px-4 py-3 font-mono">0.95 CHC</td>
+                                    <td class="px-4 py-3"><button class="text-gray-400 hover:text-white"><i class="fas fa-edit"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Passkey Modal (Hidden by default) -->
+    <div id="passkey-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[60] hidden flex items-center justify-center transition-opacity opacity-0">
+        <div class="glass-panel p-8 rounded-2xl border border-red-500/50 max-w-md w-full shadow-neon-intense mx-4 transform scale-95 transition-transform duration-300 text-center relative overflow-hidden">
+            <!-- Simulated scanner beam -->
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/10 to-transparent h-10 w-full animate-[scan_2s_ease-in-out_infinite]"></div>
+            
+            <i class="fas fa-fingerprint text-5xl text-red-500 mb-4 animate-pulse"></i>
+            <h3 class="text-2xl font-bold text-white mb-2 font-display">Virtual ID Required</h3>
+            <p class="text-gray-400 text-sm mb-6">Enter Admin Passkey or scan biometric credential to access the Enterprise Ecosystem.</p>
+            
+            <input type="password" id="passkey-input" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-center text-white mb-4 tracking-[0.5em] focus:border-red-500 focus:outline-none" placeholder="••••••••">
+            
+            <div class="flex gap-3">
+                <button onclick="closePasskeyModal()" class="flex-1 py-3 px-4 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors">Cancel</button>
+                <button onclick="validatePasskey()" class="flex-1 py-3 px-4 bg-red-600 text-white rounded-lg hover:bg-red-500 transition-colors font-bold shadow-[0_0_15px_rgba(220,38,38,0.5)]">Authenticate</button>
+            </div>
+            <p id="passkey-error" class="text-red-400 text-xs mt-3 h-4 opacity-0 transition-opacity">Invalid Passkey. Anti-Theft lockdown imminent.</p>
+        </div>
+    </div>
+    <style>@keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }</style>
+
+    <!-- Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Variables
+        let app, db, auth;
+        let currentUser = null;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'chavpk-urja-local';
+        const apiKey = ""; // Gemini API Key populated by environment
+
+        // View Management
+        const views = ['home', 'ai-agent', 'about', 'faqs', 'privacy', 'terms', 'enterprise'];
+        
+        window.navigate = function(viewId) {
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if(el) el.classList.add('hidden-view');
+            });
+            const target = document.getElementById(`view-${viewId}`);
+            if(target) {
+                target.classList.remove('hidden-view');
+                window.scrollTo(0,0);
+            }
+            closeMenu();
+            
+            if(viewId === 'enterprise' && !sessionStorage.getItem('enterprise_auth')) {
+                navigate('home'); // Security fallback
+            }
+        };
+
+        // Navigation Drawer Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const sideMenu = document.getElementById('side-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function openMenu() {
+            sideMenu.classList.remove('-translate-x-full');
+            menuOverlay.classList.remove('hidden');
+            setTimeout(() => menuOverlay.classList.remove('opacity-0'), 10);
+        }
+
+        function closeMenu() {
+            sideMenu.classList.add('-translate-x-full');
+            menuOverlay.classList.add('opacity-0');
+            setTimeout(() => menuOverlay.classList.add('hidden'), 300);
+        }
+
+        menuBtn.addEventListener('click', () => {
+            if (sideMenu.classList.contains('-translate-x-full')) openMenu();
+            else closeMenu();
+        });
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // Firebase Initialization
+        async function initFirebase() {
+            try {
+                if (typeof __firebase_config !== 'undefined') {
+                    const firebaseConfig = JSON.parse(__firebase_config);
+                    app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
+
+                    document.getElementById('auth-status').innerHTML = `<i class="fas fa-shield-alt text-yellow-500"></i> Securing Auth...`;
+                    
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+
+                    onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            currentUser = user;
+                            document.getElementById('auth-status').innerHTML = `<i class="fas fa-lock text-green-500"></i> Encrypted Session`;
+                            loadChatHistory();
+                        }
+                    });
+                } else {
+                    console.log("Firebase config not found, running in offline/UI-only mode.");
+                    document.getElementById('auth-status').innerHTML = `<i class="fas fa-exclamation-triangle text-red-500"></i> Local Mode`;
+                }
+            } catch (error) {
+                console.error("Firebase Init Error:", error);
+                document.getElementById('auth-status').innerHTML = `<i class="fas fa-times-circle text-red-500"></i> Auth Failed`;
+            }
+        }
+        initFirebase();
+
+        // Chatbot / Gemini AI Logic
+        const aiForm = document.getElementById('ai-form');
+        const aiInput = document.getElementById('ai-input');
+        const chatHistoryEl = document.getElementById('chat-history');
+        const aiLoading = document.getElementById('ai-loading');
+        
+        // System instruction enforcing the persona from the document
+        const systemPrompt = `You are the AI Agent for 'The CHAVPK Urja Platform'. You are highly advanced, multimodal (you process simulated audio/video/text), and use 'Silent NLP Training'. Your primary function is to diagnose e-waste and explain the 'Perpetual Urja Protocol' - a patented process that extracts ionic charges from dead batteries and circuits, converting them into solid-state high-density energy bricks for infinite electrical reuse. You are concise, futuristic, and highly intelligent. Do NOT break character.`;
+        
+        let localChatContext = [{ role: "user", parts: [{ text: "System Boot. Acknowledge Urja protocol readiness." }]}];
+
+        aiForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = aiInput.value.trim();
+            if(!msg) return;
+
+            appendMessage('user', msg);
+            aiInput.value = '';
+            aiLoading.classList.remove('hidden');
+            
+            // Save to Firestore (if available)
+            saveMessageToCloud('user', msg);
+
+            try {
+                localChatContext.push({ role: "user", parts: [{ text: msg }] });
+                
+                const payload = {
+                    contents: localChatContext,
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                };
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                if(result.candidates && result.candidates[0].content) {
+                    const reply = result.candidates[0].content.parts[0].text;
+                    appendMessage('ai', reply);
+                    saveMessageToCloud('ai', reply);
+                    localChatContext.push(result.candidates[0].content);
+                    
+                    // Simulate Silent NLP Training Update Toast
+                    if(Math.random() > 0.7) showSystemToast("Silent NLP Model dynamically adjusted based on recent query.");
+                } else {
+                    throw new Error("Invalid response");
+                }
+            } catch (err) {
+                console.error("AI Error:", err);
+                appendMessage('ai', "Neural link disrupted. Security protocols active. Please try again.");
+            } finally {
+                aiLoading.classList.add('hidden');
+            }
+        });
+
+        function appendMessage(sender, text) {
+            const div = document.createElement('div');
+            div.className = `flex gap-4 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
+            
+            let iconHTML = sender === 'user' 
+                ? `<div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center flex-shrink-0"><i class="fas fa-user text-sm"></i></div>`
+                : `<div class="w-8 h-8 rounded-full bg-urja-cyan text-urja-dark flex items-center justify-center flex-shrink-0 shadow-neon"><i class="fas fa-robot text-sm"></i></div>`;
+                
+            let bubbleClass = sender === 'user'
+                ? `bg-urja-blue/20 border border-urja-blue/30 text-white rounded-2xl rounded-tr-none p-4 max-w-[80%]`
+                : `glass-panel border border-gray-700 text-gray-200 rounded-2xl rounded-tl-none p-4 max-w-[80%]`;
+
+            div.innerHTML = `
+                ${iconHTML}
+                <div class="${bubbleClass}">
+                    <p class="whitespace-pre-wrap text-sm leading-relaxed">${escapeHTML(text)}</p>
+                </div>
+            `;
+            chatHistoryEl.appendChild(div);
+            chatHistoryEl.scrollTop = chatHistoryEl.scrollHeight;
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+            }[tag]));
+        }
+
+        function saveMessageToCloud(sender, text) {
+            if (!db || !currentUser) return;
+            try {
+                const chatRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'chats');
+                addDoc(chatRef, {
+                    sender, text, timestamp: serverTimestamp()
+                });
+            } catch (e) {
+                console.error("Error saving chat:", e);
+            }
+        }
+
+        function loadChatHistory() {
+            if (!db || !currentUser) return;
+            const chatRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'chats');
+            const q = query(chatRef); // Simplified query per Rule 2
+            
+            // Note: In a real app we'd sort locally, but to keep demo clean we just fetch recent or rely on initial load
+            // Omitting complex history loading here to maintain UI clean slate for demo purposes, 
+            // but the saving mechanism is intact above based on strict rules.
+        }
+
+        // UI Mock Functions
+        window.simulateFileUpload = function() {
+            appendMessage('user', "[Simulated Action: Uploading E-Waste Image Analysis]");
+            setTimeout(() => {
+                aiLoading.classList.remove('hidden');
+                setTimeout(() => {
+                    aiLoading.classList.add('hidden');
+                    appendMessage('ai', "Image processed via Urja Vision. I detect degraded lithium-ion cells and copper tracings. This batch holds approximately 450mV of residual ionic charge. Ready for extraction protocols.");
+                }, 1500);
+            }, 500);
+        }
+
+        window.simulateAudioInput = function() {
+            appendMessage('user', "[Simulated Action: Microphone Audio Recording]");
+            setTimeout(() => {
+                aiLoading.classList.remove('hidden');
+                setTimeout(() => {
+                    aiLoading.classList.add('hidden');
+                    appendMessage('ai', "Audio waveform analyzed. Motor whine indicates a failing capacitor bank on your industrial AC unit. We can process this. Sending pickup logistics to Transport Node 7.");
+                    showSystemToast("Silent NLP: Regional dialect parameters updated.");
+                }, 1500);
+            }, 500);
+        }
+
+        function showSystemToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-gray-900 border border-green-500/50 text-green-400 px-4 py-2 rounded-lg text-xs shadow-lg z-50 fade-in flex items-center gap-2';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 500);
+            }, 400);
+        }
+
+        // Enterprise Security Passkey Logic
+        const passkeyModal = document.getElementById('passkey-modal');
+        const passkeyInput = document.getElementById('passkey-input');
+        const passkeyError = document.getElementById('passkey-error');
+
+        window.triggerEnterpriseLogin = function() {
+            closeMenu();
+            passkeyModal.classList.remove('hidden');
+            setTimeout(() => {
+                passkeyModal.classList.remove('opacity-0');
+                passkeyModal.querySelector('div').classList.remove('scale-95');
+                passkeyInput.focus();
+            }, 10);
+        }
+
+        window.closePasskeyModal = function() {
+            passkeyModal.classList.add('opacity-0');
+            passkeyModal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                passkeyModal.classList.add('hidden');
+                passkeyInput.value = '';
+                passkeyError.classList.add('opacity-0');
+            }, 300);
+        }
+
+        window.validatePasskey = function() {
+            const val = passkeyInput.value.toUpperCase();
+            if(val === 'URJA2026') {
+                sessionStorage.setItem('enterprise_auth', 'true');
+                closePasskeyModal();
+                navigate('enterprise');
+                showSystemToast("Biometric verification complete. Blockchain ledger synced.");
+            } else {
+                passkeyError.classList.remove('opacity-0');
+                passkeyInput.value = '';
+                // Simulate anti-theft
+                setTimeout(() => {
+                    passkeyError.innerText = "Anti-Theft Protocol Triggered. Tracking Origin...";
+                }, 1000);
+            }
+        }
+
+        // Live Currency Mocks for Enterprise Dashboard
+        setInterval(() => {
+            const usd = document.getElementById('live-usd');
+            const chc = document.getElementById('live-chc');
+            if(usd && !document.getElementById('view-enterprise').classList.contains('hidden-view')) {
+                let currentUsd = parseFloat(usd.innerText.replace('₹ ', ''));
+                let currentChc = parseFloat(chc.innerText.replace('$ ', '').replace(',',''));
+                
+                // Random fluctuation
+                currentUsd += (Math.random() - 0.5) * 0.1;
+                currentChc += (Math.random() - 0.5) * 5;
+
+                usd.innerText = `₹ ${currentUsd.toFixed(2)}`;
+                chc.innerText = `$ ${currentChc.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                
+                usd.classList.add('text-white');
+                setTimeout(()=> usd.classList.remove('text-white'), 300);
+            }
+        }, 3000);
+
+    </script>
+</body>
+</html>
